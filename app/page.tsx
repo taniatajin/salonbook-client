@@ -1,8 +1,16 @@
+import Banner from "@/components/home/Banner";
+import Categories from "@/components/home/Categories";
+import FeaturedServices from "@/components/home/FeaturedServices";
+import HowItWorks from "@/components/home/HowItWorks";
+import { dummyServices } from "@/lib/dummy-data";
+
 export default function Home() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-20 text-center">
-      <h1 className="text-3xl font-bold">SalonBook</h1>
-      <p className="mt-2 text-stone-600">Home page coming in Step 4.</p>
-    </div>
+    <>
+      <Banner />
+      <FeaturedServices services={dummyServices} />
+      <Categories />
+      <HowItWorks />
+    </>
   );
 }
