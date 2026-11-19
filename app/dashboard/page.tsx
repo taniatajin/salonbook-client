@@ -4,22 +4,23 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useSession } from "@/lib/auth-client";
 
-export default function DashboardPage() {
+export default function DashboardRedirectPage() {
   const router = useRouter();
-  const { data: session, isPending } = useSession();
+  const { data: session } = useSession();
+  const role = session?.user.role;
 
   useEffect(() => {
-    if (!isPending && !session) router.replace("/sign-in");
-  }, [isPending, session, router]);
-
-  if (isPending || !session) {
-    return <div className="py-20 text-center text-stone-500">Loading...</div>;
-  }
+    if (!role) return;
+    router.replace(role === "admin" ? "/dashboard/admin" : "/dashboard/customer");
+  }, [role, router]);
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-16 text-center">
-      <h1 className="text-2xl font-bold">Welcome, {session.user.name}</h1>
-      <p className="mt-2 text-stone-600">Role: {session.user.role}</p>
+    <div className="flex min-h-[40vh] items-center justify-center">
+      <div
+        className="h-10 w-10 animate-spin rounded-full border-4 border-rose-200 border-t-rose-600"
+        role="status"
+        aria-label="Loading"
+      />
     </div>
   );
 }
