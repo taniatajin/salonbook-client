@@ -1,7 +1,9 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { apiFetch, ApiError } from "@/lib/api";
 import { TIME_SLOTS } from "@/lib/time-slots";
 import type { Service } from "@/lib/types";
 
@@ -20,6 +22,7 @@ function todayString() {
 }
 
 export default function AppointmentForm({ service, onClose }: Props) {
+  const router = useRouter();
   const [date, setDate] = useState("");
   const [timeSlot, setTimeSlot] = useState("");
   const [message, setMessage] = useState("");
@@ -39,16 +42,23 @@ export default function AppointmentForm({ service, onClose }: Props) {
 
     setSubmitting(true);
     try {
-      // Temporary: server API ready hole ekhane real POST request hobe
-      await new Promise((resolve) => setTimeout(resolve, 800));
+      await apiFetch("/api/appointments", {
+        method: "POST",
+        body: {
+          serviceId: service._id,
+          appointmentDate: date,
+          timeSlot,
+          message: message.trim(),
+        },
+      });
 
       toast.success("Appointment request submitted. Waiting for confirmation.");
-      setDate("");
-      setTimeSlot("");
-      setMessage("");
-      onClose();
-    } catch {
-      toast.error("Could not submit your request. Please try again.");
+      router.push("/dashboard/customer/appointments");
+    } catch (err) {
+      // 409 hole slot already booked, server-er message-i dekhabe
+      toast.error(
+        err instanceof ApiError ? err.message : "Could not submit your request. Please try again."
+      );
     } finally {
       setSubmitting(false);
     }
@@ -59,9 +69,7 @@ export default function AppointmentForm({ service, onClose }: Props) {
       onSubmit={handleSubmit}
       className="mt-6 space-y-4 rounded-2xl border border-rose-100 bg-rose-50/40 p-5"
     >
-      <h3 className="text-lg font-semibold text-stone-800">
-        Request an appointment
-      </h3>
+      <h3 className="text-lg font-semibold text-stone-800">Request an appointment</h3>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
