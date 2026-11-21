@@ -2,13 +2,15 @@ import Banner from "@/components/home/Banner";
 import Categories from "@/components/home/Categories";
 import FeaturedServices from "@/components/home/FeaturedServices";
 import HowItWorks from "@/components/home/HowItWorks";
-import { dummyServices } from "@/lib/dummy-data";
+import { getFeaturedServices } from "@/lib/server-api";
 
-export default function Home() {
+export default async function Home() {
+  const services = await getFeaturedServices();
+
   return (
     <>
       <Banner />
-      <FeaturedServices services={dummyServices} />
+      <FeaturedServices services={services} />
       <Categories />
       <HowItWorks />
     </>
