@@ -6,25 +6,38 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import { FiAlertCircle, FiArrowLeft, FiClock } from "react-icons/fi";
 import AppointmentForm from "@/components/services/AppointmentForm";
+import Spinner from "@/components/ui/Spinner";
+import { useFetch } from "@/hooks/useFetch";
 import { useSession } from "@/lib/auth-client";
-import { dummyServices } from "@/lib/dummy-data";
+import type { Service } from "@/lib/types";
 
 export default function ServiceDetails() {
   const { id } = useParams<{ id: string }>();
   const { data: session } = useSession();
   const [showForm, setShowForm] = useState(false);
 
-  const service = dummyServices.find((s) => s._id === id);
+  const { data: service, loading, error } = useFetch<Service>(
+    id ? `/api/services/${id}` : null,
+    false
+  );
   const isAdmin = session?.user.role === "admin";
 
-  // invalid service id
-  if (!service) {
+  if (loading) {
+    return (
+      <div className="flex min-h-[40vh] items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
+
+  // invalid id, not found ba server error
+  if (error || !service) {
     return (
       <div className="mx-auto max-w-md rounded-2xl border border-rose-100 bg-white p-8 text-center shadow-sm">
         <FiAlertCircle className="mx-auto text-4xl text-rose-500" />
         <h1 className="mt-3 text-xl font-semibold text-stone-800">Service not found</h1>
         <p className="mt-1 text-sm text-stone-600">
-          The service you are looking for does not exist or the link is invalid.
+          {error || "The service you are looking for does not exist."}
         </p>
         <Link
           href="/services"
