@@ -1,5 +1,5 @@
-import PageHeader from "@/components/dashboard/PageHeader";
+import ProfileForm from "@/components/dashboard/ProfileForm";
 
 export default function AdminProfilePage() {
-  return <PageHeader title="My Profile" description="Update your profile information." />;
+  return <ProfileForm />;
 }
