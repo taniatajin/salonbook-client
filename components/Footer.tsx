@@ -87,4 +87,18 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-stone-800 hover:bg-rose-600"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-stone-800 hover:bg-rose-600 hover:text-white"
+              >
+                <Icon />
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t border-stone-800 py-4 text-center text-sm text-stone-400">
+        &copy; {new Date().getFullYear()} SalonBook. All rights reserved.
+      </div>
+    </footer>
+  );
+}
