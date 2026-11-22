@@ -87,4 +87,4 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-stone-800 hover:bg-rose-600
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-stone-800 hover:bg-rose-600"
