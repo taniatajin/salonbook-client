@@ -7,7 +7,7 @@ export default function Banner() {
         className="absolute inset-0 -z-20 bg-cover bg-center"
         style={{ backgroundImage: "url('/images/banner.jpg')" }}
       />
-      <div className="absolute inset-0 -z-10 bg-stone-900/60" />
+      <div className="absolute inset-0 -z-10 bg-stone-900/50" />
 
       <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
         <div className="max-w-2xl">
